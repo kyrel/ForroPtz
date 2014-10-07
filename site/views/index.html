@@ -17,11 +17,17 @@
     <script type="text/javascript">
         VK.Widgets.Auth("vk_auth", {
             width: "200px", onAuth: function (data) {
-                alert('user ' + data['uid'] + ' authorized');
+                //alert('user ' + data['uid'] + ' authorized');
+                //console.log(data);
+                $.ajax({ url: '/auth/signIn', type: 'POST', data: data }).done(function () {
+                    console.log('Done');
+                });
             }
         });
     </script>
+    {{#if isAuthenticated}}
     <h1>Моё форро в Петрозаводске</h1>
+    {{/if}}
     <div class="container-fluid">
         <section class="currentLongTermTicket">
             <h2>Мой абонемент</h2>
