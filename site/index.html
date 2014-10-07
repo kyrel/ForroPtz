@@ -3,34 +3,48 @@
 <head>
     <meta charset="utf-8" />
     <title>Dança diferente // Forró Petrozavodsk</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />    
-    <link rel="stylesheet"  href="common.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="common.css" />
+    <script type="text/javascript" src="http://vk.com/js/api/openapi.js?115"></script>
+
+
 </head>
 <body>
+    <script type="text/javascript">
+        VK.init({ apiId: 4580391 });
+    </script>
+    <div class="pull-right" id="vk_auth"></div>
+    <script type="text/javascript">
+        VK.Widgets.Auth("vk_auth", {
+            width: "200px", onAuth: function (data) {
+                alert('user ' + data['uid'] + ' authorized');
+            }
+        });
+    </script>
     <h1>Моё форро в Петрозаводске</h1>
     <div class="container-fluid">
         <section class="currentLongTermTicket">
             <h2>Мой абонемент</h2>
             10.01.2014 - 09.03.2014
-            <table class="table table-bordered">
-                <tr>
-                    <td>10.01</td>
-                    <td>12.01</td>
-                    <td>15.01</td>
-                    <td>24.01</td>
-                </tr>
-                <tr>
-                    <td>31.01</td>
-                    <td>02.02</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-            </table>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>10.01</td>
+                        <td>12.01</td>
+                        <td>15.01</td>
+                        <td>24.01</td>
+                    </tr>
+                    <tr>
+                        <td>31.01</td>
+                        <td>02.02</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
         </section>
         <section class="classes">
             <h2>Наши занятия</h2>
             <ul class="pagination">
-                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> Янв</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span>Янв</a></li>
                 <li class="active"><a href="#">Февраль 2014</a></li>
                 <li><a href="#">Мар <span class="glyphicon glyphicon-chevron-right"></span></a></li>
             </ul>

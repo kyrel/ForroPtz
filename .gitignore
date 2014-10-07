@@ -1,3 +1,8 @@
+# MS Studio files
+*.sln
+*.DotSettings
+*.suo
+
 # Logs
 logs
 *.log
