@@ -17,6 +17,9 @@ app.use(require('express-session')());
 app.use(require('body-parser')());
 app.use(express.static(__dirname + '/public'));
 
+var opts = { server: { socketOptions: { keepAlive: 1 } } };
+mongoose.connect(credentials.mongo.development.connectionString, opts);
+
 app.get('/', function (request, response) {
     var user = request.session.user;
     var viewModel = { isAuthenticated: !!user };
@@ -29,19 +32,6 @@ app.get('/', function (request, response) {
     response.render('index', viewModel);
 });
 
-var opts = { server: { socketOptions: { keepAlive: 1 } } };
-mongoose.connect(credentials.mongo.development.connectionString, opts);
-/*switch (app.get('env')) {
-    case 'development':
-        mongoose.connect(credentials.mongo.development.connectionString, opts);
-        break;
-    case 'production':
-        mongoose.connect(credentials.mongo.production.connectionString, opts);
-        break;
-    default:
-        throw new Error('Unknown execution environment: ' + app.get('env'));
-}*/
-
 app.post('/auth/signIn', function (request, response) {
     var appId = '4580391';
     var uid = request.body.uid;
@@ -53,23 +43,30 @@ app.post('/auth/signIn', function (request, response) {
         response.send('');
         return;
     }
-    var user = {};
-    User.find({ available: true }, function (err, users) {
-        console.log("err:", err);
-        console.log("users:", users);
-        user = users[0];
+    User.find({ vkId: uid }, function (err, users) {
+        if (err) {
+            console.log("Find user error:", err);
+            response.send('');
+            return;
+        }
+        var user = users[0];
         if (!user) {
             user = {
                 firstName: 'Ваня',
                 lastName: 'Ванечкин',
                 vkId: uid
             };
-            console.log('нет никого');
+            console.log('Nobody found, create new user:');
+            console.log(user);
             new User(user).save();
         }
+        request.session.user = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            vkId: user.vkId
+        };
+        response.send('');
     });
-    request.session.user = user;
-    response.send('');
 });
 
 app.post('/auth/signOut', function (request, response) {
