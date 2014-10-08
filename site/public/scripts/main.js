@@ -8,8 +8,6 @@ app.controller('AuthController', ['$scope', '$document', function ($scope, $docu
             VK.Widgets.Auth("vk_auth", {
                 width: "200px",
                 onAuth: function(data) {
-                    //alert('user ' + data['uid'] + ' authorized');
-                    //console.log(data);
                     $.ajax({ url: '/auth/signIn', type: 'POST', data: data }).done(function() {
                         window.location.reload();
                     });

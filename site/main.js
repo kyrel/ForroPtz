@@ -1,8 +1,10 @@
 ﻿var express = require('express');
 var md5 = require('MD5');
+var moment = require('moment');
 var mongoose = require('mongoose');
 var credentials = require('./credentials');
 var User = require('./models/user');
+var LongTermTicket = require('./models/longTermTicket');
 
 var app = express();
 var handlebars = require('express-handlebars').create({
@@ -23,13 +25,23 @@ mongoose.connect(credentials.mongo.development.connectionString, opts);
 app.get('/', function (request, response) {
     var user = request.session.user;
     var viewModel = { isAuthenticated: !!user };
-    if (user)
+    if (user) {
         viewModel.user = {
             firstName: user.firstName,
             lastName: user.lastName
         };
+        LongTermTicket.findLast(user._id, function (err, longTermTicket) {
+            viewModel.longTermTicket = {
+                startDate: moment(longTermTicket.startDate).format("DD.MM.YYYY"),
+                endDate: moment(longTermTicket.endDate).format("DD.MM.YYYY"),
+                classDates: longTermTicket.classDates.map(function (date) { return moment(date).format("DD.MM");})
+            };
+            while (viewModel.longTermTicket.classDates.length < 8) viewModel.longTermTicket.classDates.push('&nbsp;');
+            response.render('index', viewModel);
+        });
+    }
+    else response.render('index', viewModel);
 
-    response.render('index', viewModel);
 });
 
 app.post('/auth/signIn', function (request, response) {
@@ -58,13 +70,13 @@ app.post('/auth/signIn', function (request, response) {
             };
             console.log('Nobody found, create new user:');
             console.log(user);
-            new User(user).save();
+            new User(user).save(function (err, user, numberAffected) {
+                console.log('inside save, numberAffected:', numberAffected);
+                request.session.user = user;
+                response.send('');
+            });
         }
-        request.session.user = {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            vkId: user.vkId
-        };
+        request.session.user = user;
         response.send('');
     });
 });

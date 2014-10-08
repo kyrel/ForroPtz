@@ -24,12 +24,21 @@
         <h1>Моё форро в Петрозаводске</h1>
     {{/if}}
         <div class="container-fluid">
+            {{#if isAuthenticated}}
+            {{#if longTermTicket}}
             <section class="currentLongTermTicket">
                 <h2>Мой абонемент</h2>
-                10.01.2014 - 09.03.2014
-                <table class="table table-bordered">
+                {{longTermTicket.startDate}} - {{longTermTicket.endDate}}
+                <div style="width: 201px; border-left:solid 1px; border-top:solid 1px">
+                    <!--{{#each longTermTicket.classDates}}
+                    --><div style="display: inline-block; width: 50px; border-right:solid 1px; border-bottom:solid 1px; text-align: center">
+                        {{{.}}}
+                    </div><!--
+                    {{/each}}-->
+                </div>
+                <!--<table class="table table-bordered">
                     <tr>
-                        <td>10.01</td>
+                        <td></td>
                         <td>12.01</td>
                         <td>15.01</td>
                         <td>24.01</td>
@@ -37,11 +46,16 @@
                     <tr>
                         <td>31.01</td>
                         <td>02.02</td>
-                        <td>&nbsp;</td>
+                        <td></td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
+                    -->
             </section>
+            {{else}}
+            Нету
+            {{/if}}
+            {{/if}}
             <section class="classes">
                 <h2>Наши занятия</h2>
                 <ul class="pagination">
