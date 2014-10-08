@@ -12,9 +12,12 @@
 <body ng-app="app">
     <div class="pull-right" ng-controller="AuthController">
         {{#if isAuthenticated}}
+        <div>
+            {{user.firstName}} {{user.lastName}}
+        </div>
         <button type="button" class="btn" ng-click="signOut()">Выход</button>
         {{else}}
-        <div id="vk_auth"></div>        
+        <div id="vk_auth"></div>
         {{/if}}
     </div>
     {{#if isAuthenticated}}

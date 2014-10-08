@@ -1,5 +1,5 @@
 # MS Studio files
-*.sln
+# *.sln
 *.DotSettings
 *.suo
 
@@ -44,8 +44,7 @@ node_modules
 .LSOverride
 
 # Icon must end with two \r
-Icon
-
+Icon
 # Thumbnails
 ._*
 
