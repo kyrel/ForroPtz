@@ -9,29 +9,35 @@
 
 
 </head>
-<body>
-    <script type="text/javascript">
-        VK.init({ apiId: 4580391 });
-    </script>   
-    <div class="pull-right" id="vk_auth"></div>
-    <script type="text/javascript">
-        VK.Widgets.Auth("vk_auth", {
-            width: "200px", onAuth: function (data) {
-                //alert('user ' + data['uid'] + ' authorized');
-                //console.log(data);
-                $.ajax({ url: '/auth/signIn', type: 'POST', data: data }).done(function () {
-                    console.log('Done');
-                });
-            }
-        });
-    </script>
+<body ng-app="app">
+    <div class="pull-right" ng-controller="AuthController">
+        {{#if isAuthenticated}}
+        <button type="button" class="btn" ng-click="signOut()">Выход</button>
+        {{else}}
+        <script type="text/javascript">
+            VK.init({ apiId: 4580391 });
+        </script>
+        <div id="vk_auth"></div>
+        <script type="text/javascript">
+            VK.Widgets.Auth("vk_auth", {
+                width: "200px", onAuth: function (data) {
+                    //alert('user ' + data['uid'] + ' authorized');
+                    //console.log(data);
+                    $.ajax({ url: '/auth/signIn', type: 'POST', data: data }).done(function () {
+                        window.location.reload();
+                    });
+                }
+            });
+        </script>
+        {{/if}}
+    </div>
     {{#if isAuthenticated}}
-    <h1>Моё форро в Петрозаводске</h1>
+        <h1>Моё форро в Петрозаводске</h1>
     {{/if}}
-    <div class="container-fluid">
-        <section class="currentLongTermTicket">
-            <h2>Мой абонемент</h2>
-            10.01.2014 - 09.03.2014
+        <div class="container-fluid">
+            <section class="currentLongTermTicket">
+                <h2>Мой абонемент</h2>
+                10.01.2014 - 09.03.2014
                 <table class="table table-bordered">
                     <tr>
                         <td>10.01</td>
@@ -46,34 +52,36 @@
                         <td>&nbsp;</td>
                     </tr>
                 </table>
-        </section>
-        <section class="classes">
-            <h2>Наши занятия</h2>
-            <ul class="pagination">
-                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span>Янв</a></li>
-                <li class="active"><a href="#">Февраль 2014</a></li>
-                <li><a href="#">Мар <span class="glyphicon glyphicon-chevron-right"></span></a></li>
-            </ul>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-ok" data-toggle="tooltip" data-placement="right" title="Я был на этом занятии"></span></td>
-                        <td>Понедельник, 02</td>
-                        <td>Продолжающие</td>
-                        <td>Игра в танце (по мотивам Димы Врубеля на Русском Форро) - на основе поворотов спинами и бачи-бачи</td>
-                    </tr>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-minus" data-toggle="tooltip" data-placement="right" title="Я не был на этом занятии"></span></td>
-                        <td>Среда, 04</td>
-                        <td>Начинающие</td>
-                        <td>Поворот мальчика, вариации. Геликоптера</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </div>
+            </section>
+            <section class="classes">
+                <h2>Наши занятия</h2>
+                <ul class="pagination">
+                    <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span>Янв</a></li>
+                    <li class="active"><a href="#">Февраль 2014</a></li>
+                    <li><a href="#">Мар <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                </ul>
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td><span class="glyphicon glyphicon-ok" data-toggle="tooltip" data-placement="right" title="Я был на этом занятии"></span></td>
+                            <td>Понедельник, 02</td>
+                            <td>Продолжающие</td>
+                            <td>Игра в танце (по мотивам Димы Врубеля на Русском Форро) - на основе поворотов спинами и бачи-бачи</td>
+                        </tr>
+                        <tr>
+                            <td><span class="glyphicon glyphicon-minus" data-toggle="tooltip" data-placement="right" title="Я не был на этом занятии"></span></td>
+                            <td>Среда, 04</td>
+                            <td>Начинающие</td>
+                            <td>Поворот мальчика, вариации. Геликоптера</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="/vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="/scripts/main.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("[data-toggle=tooltip]").tooltip();

@@ -41,7 +41,9 @@ app.post('/auth/signIn', function (request, response) {
 });
 
 app.post('/auth/signOut', function (request, response) {
+    console.log('inside signOut');
     delete request.session.user;
+    response.send('');
 });
 
 
