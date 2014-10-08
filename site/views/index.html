@@ -14,21 +14,7 @@
         {{#if isAuthenticated}}
         <button type="button" class="btn" ng-click="signOut()">Выход</button>
         {{else}}
-        <script type="text/javascript">
-            VK.init({ apiId: 4580391 });
-        </script>
-        <div id="vk_auth"></div>
-        <script type="text/javascript">
-            VK.Widgets.Auth("vk_auth", {
-                width: "200px", onAuth: function (data) {
-                    //alert('user ' + data['uid'] + ' authorized');
-                    //console.log(data);
-                    $.ajax({ url: '/auth/signIn', type: 'POST', data: data }).done(function () {
-                        window.location.reload();
-                    });
-                }
-            });
-        </script>
+        <div id="vk_auth"></div>        
         {{/if}}
     </div>
     {{#if isAuthenticated}}
